@@ -2,11 +2,14 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.auth import AuthToken, TokenAuthentication
-from .serializers import RegisterSerializer
+
+from users.models import UserAddress
+from .serializers import RegisterSerializer, UserAddressSerializer, UserSerializer
 
 
 def serialize_user(user):
     return {
+        "id":user.id,
         "username": user.username,
         "email": user.email,
         "first_name": user.first_name,
@@ -33,7 +36,7 @@ def register(request):
         user = serializer.save()
         _, token = AuthToken.objects.create(user)
         return Response({
-            "user_info": serialize_user(user),
+            "user_info": UserSerializer(user).data,
             "token": token
         })
 
@@ -41,8 +44,10 @@ def register(request):
 @api_view(['GET'])
 def get_user(request):
     user = request.user
+    query1 = UserAddress.objects.filter(customer = user)
     if user.is_authenticated:
         return Response({
-            'user_data': serialize_user(user)
+            'user_data': UserSerializer(user).data,
+            'address': UserAddressSerializer(query1, many = True).data
         })
     return Response({})

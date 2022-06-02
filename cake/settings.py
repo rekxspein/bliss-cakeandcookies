@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+from datetime import timedelta
+from rest_framework.settings import api_settings
+
+DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +34,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# CORS_ORIGIN_ALLOW_ALL = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +50,7 @@ INSTALLED_APPS = [
     #third-party apps
     'rest_framework',
     'knox',
-    
+    # 'corsheaders',
     
     
     #custom apps
@@ -115,17 +123,32 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+#medias will be refered using this
+MEDIA_URL = '/media/'
+
+#this is where django will store media files
+MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+
+# this is how we refer to the static files
+STATIC_URL = '/static/'
+
+# This is where I keep my static files
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'cake/static'),
+)
+
+# This is where django will keep static files
+STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -134,4 +157,38 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+}
+
+# LOGGING = {
+#     'version': 1,
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         }
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         }
+#     }
+# }
+
+# These are the default values if none are set
+REST_KNOX = {
+    'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+    'AUTH_TOKEN_CHARACTER_LENGTH': 32,
+    # 'TOKEN_TTL': timedelta(hours=10),
+    'TOKEN_TTL': None,
+    'USER_SERIALIZER': 'knox.serializers.UserSerializer',
+    'TOKEN_LIMIT_PER_USER': None,
+    'AUTO_REFRESH': False,
+    # 'EXPIRY_DATETIME_FORMAT': api_settings.DATETME_FORMAT,
 }
