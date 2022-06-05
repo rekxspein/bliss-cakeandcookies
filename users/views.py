@@ -4,7 +4,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.auth import AuthToken, TokenAuthentication
 
 from users.models import UserAddress
-from .serializers import RegisterSerializer, UserAddressSerializer, UserSerializer
+from users.serializers import RegisterSerializer, UserAddressSerializer, UserSerializer
 
 
 def serialize_user(user):
@@ -52,7 +52,8 @@ def get_user(request):
         })
     return Response({'error': 'User is not authenticated'})
 
-@api_view(['GET','POST','DELETE'])
+
+@api_view(['GET', 'POST', 'DELETE', 'PUT'])
 def address(request):
     if request.method == 'GET':
         user = request.user
