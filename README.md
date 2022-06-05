@@ -1,1 +1,1 @@
-# Backend part of bliss-cakeandcookies website
+# django backend part of bliss-cakeandcookies website
