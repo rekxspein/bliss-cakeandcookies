@@ -45,18 +45,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
-    
-    #third-party apps
+
+
+    # third-party apps
     'rest_framework',
     'knox',
     # 'corsheaders',
-    
-    
-    #custom apps
+
+
+    # custom apps
     'users',
     'products',
-    # 'orders',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -67,14 +67,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # cors middleware
+    # "corsheaders.middleware.CorsMiddleware",
 ]
+
+# MIDDLEWARE_CLASSES = [
+
+#     "corsheaders.middleware.CorsMiddleware",
+#     "django.middleware.csrf.CsrfViewMiddleware",
+#     "corsheaders.middleware.CorsPostCsrfMiddleware",
+# ]
 
 ROOT_URLCONF = 'cake.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,10 +147,10 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-#medias will be refered using this
+# medias will be refered using this
 MEDIA_URL = '/media/'
 
-#this is where django will store media files
+# this is where django will store media files
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 # this is how we refer to the static files

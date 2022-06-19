@@ -12,6 +12,10 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name = "Product Category"
         verbose_name_plural = " Product Categories"
+        
+    @staticmethod
+    def get_all_product_categories():
+        return ProductCategory.objects.all()
 
 
 
