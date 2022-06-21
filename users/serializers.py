@@ -44,5 +44,5 @@ class UserSerializer(serializers.ModelSerializer):
     # customer_address = UserAddressSerializer(read_only=True, many=True)
     class Meta:
         model = User
-        fields = ("id","username", "email", "first_name", "last_name")
+        fields = ("id", "username", "email", "first_name", "last_name")
 

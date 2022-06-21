@@ -22,11 +22,11 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(
         max_length=120, default='Not Yet Shipped', choices=ORDER_STATUS_CHOICES)
-    total_amount = models.IntegerField(null=False, blank=False)
+    total_amount = models.IntegerField(default=0, null=False, blank=False)
     address = models.ForeignKey(UserAddress, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.order_id + " " + self.user.username
+        return self.user.username + " " + self.order_id
 
     @staticmethod
     def get_all_orders():
@@ -42,10 +42,12 @@ pre_save.connect(pre_save_create_order_id, sender=Order)
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order, related_name="orders_item", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField(default=1)
     price = models.IntegerField(default=0)
+    item_total = models.IntegerField(default=0)
 
     def __str__(self):
         return self.product.name + " " + self.order.order_id
