@@ -8,7 +8,7 @@ from products.models import ProductCategory, Product
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = ProductCategory
         fields = '__all__'
 
 
@@ -21,3 +21,4 @@ class ProductSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Product
 #         fields = ('name',)
+#

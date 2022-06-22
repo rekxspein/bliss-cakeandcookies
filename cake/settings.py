@@ -31,7 +31,8 @@ SECRET_KEY = 'django-insecure-a)b1dis-5)mqs#c8ix1o-tcx2^tn256cbmtp_nq2g9pdfkfc%6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', 'bliss-cakeandcookies.ml',
+                 'www.bliss-cakeandcookies.ml', '172.105.36.218', '127.0.0.1']
 
 CORS_ORIGIN_ALLOW_ALL = True
 

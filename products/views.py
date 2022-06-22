@@ -15,16 +15,19 @@ def getProducts(request, id=None):
     if request.method == 'GET':
         if id:
             product = Product.objects.filter(id=id)
-            serializer = ProductSerializer(product)
+            serializer = ProductSerializer(
+                product, context={"request": request})
             return Response(serializer.data)
 
         else:
             products = Product.get_all_products()
-            serializer = ProductSerializer(products, many=True)
+            serializer = ProductSerializer(
+                products, many=True, context={"request": request})
             return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ProductSerializer(data=request.data)
+        serializer = ProductSerializer(
+            data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=201)
@@ -37,17 +40,19 @@ def getProductCategories(request, id=None):
     if request.method == 'GET':
         if id:
             product_category = ProductCategory.objects.filter(id=id)
-            serializer = ProductCategorySerializer(product_category)
+            serializer = ProductCategorySerializer(
+                product_category, context={"request": request})
             return Response(serializer.data)
 
         else:
             product_categories = ProductCategory.get_all_product_categories()
             serializer = ProductCategorySerializer(
-                product_categories, many=True)
+                product_categories, many=True, context={"request": request})
             return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ProductCategorySerializer(data=request.data)
+        serializer = ProductCategorySerializer(
+            data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=201)
@@ -60,10 +65,12 @@ def getProductsByCategory(request, id=None):
     if request.method == 'GET':
         if id:
             product = Product.objects.filter(category_id=id)
-            serializer = ProductSerializer(product, many=True)
+            serializer = ProductSerializer(
+                product, many=True, context={"request": request})
             return Response(serializer.data)
 
         else:
             products = Product.get_all_products()
-            serializer = ProductSerializer(products, many=True)
+            serializer = ProductSerializer(
+                products, many=True, context={"request": request})
             return Response(serializer.data)

@@ -26,7 +26,7 @@ class Product(models.Model):
     description = models.TextField(max_length=200)
     price = models.IntegerField(null=True, blank=True)
     offer_price = models.IntegerField(null=True, blank=True)
-    image = models.ImageField(upload_to ='images/', default=None, blank=True)
+    image = models.ImageField(upload_to ='images/', default=None, blank=False)
     stock = models.IntegerField(default=1)
     category = models.ForeignKey(ProductCategory, related_name = 'product' ,on_delete=models.CASCADE)
 
