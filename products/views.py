@@ -14,7 +14,7 @@ from products.serializers import ProductSerializer, ProductCategorySerializer
 def getProducts(request, id=None):
     if request.method == 'GET':
         if id:
-            product = Product.objects.filter(id=id)
+            product = Product.objects.get(id=id)
             serializer = ProductSerializer(
                 product, context={"request": request})
             return Response(serializer.data)
